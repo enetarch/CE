@@ -1,0 +1,15 @@
+<?
+	$nID = 0;
+
+	if (isset ($_GET ['nID']))
+		$nID = $_GET ["nID"];
+
+	// printf ("ID = %d<BR>", $nID);
+
+?>
+
+<frameset rows="100,*" border="5">
+	<frame name="frmView_Header" src="view_header.php?nID=<?= $nID ?>">
+	<frame name="frmView_Form" src="view_folder.php?nID=<?= $nID ?>">
+</frameset>
+

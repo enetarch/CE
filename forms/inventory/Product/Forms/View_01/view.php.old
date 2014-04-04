@@ -1,0 +1,142 @@
+<?
+	Include_Once ("../../../Shared/_app.inc");
+
+Function php_Main ()
+{
+	global $gblLadder;
+
+	$nID = 0;
+	$bStatus = "";
+	$aryTargetIDs = Array();
+
+	if (isset ($_GET ['nID']))
+		$nID = $_GET ["nID"];
+
+	$objFolder = $gblLadder->getItem ($nID);
+
+?>
+
+<html>
+<head>
+<title>View Inventory Product</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" href="../../../Shared/styles.css">
+</head>
+
+<body>
+<?
+	if ($nID <> 0)
+	{
+
+		$objDescription = $objFolder->getItem
+			("Description", ldrGlobals::cClass_Inventory_Description());
+
+		$objFeatures = $objFolder->getItem
+			("Features", ldrGlobals::cClass_Inventory_Features());
+
+		$objSpecifications = $objFolder->getItem
+			("Specifications", ldrGlobals::cClass_Inventory_Specifications());
+
+		$objRelatedTo = $objFolder->getFolder
+			("RelatedTo", ldrGlobals::cClass_Inventory_RelatedTo());
+
+		// ==================
+
+		$objItemNo = $objFolder->getItem
+			("ItemNo", ldrGlobals::cClass_Inventory_ItemNo());
+
+		$objImages = $objFolder->getFolder
+			("Images", ldrGlobals::cClass_Inventory_Images());
+
+		$objKeywords = $objFolder->getFolder
+			("Keywords", ldrGlobals::cClass_Inventory_Keywords());
+
+		$objPricing = $objFolder->getFolder
+			("Pricing", ldrGlobals::cClass_Inventory_Pricing());
+
+		$objTaxable = $objFolder->getItem
+			("Taxable", ldrGlobals::cClass_Inventory_Taxable());
+
+		$objPackageType = $objFolder->getItem
+			("PackageType", ldrGlobals::cClass_Inventory_PackageType());
+
+		$objReviews = $objFolder->getFolder
+			("Reviews", ldrGlobals::cClass_Inventory_Reviews());
+
+		$objDimensions = $objFolder->getItem
+			("Dimensions", ldrGlobals::cClass_Inventory_Dimensions());
+
+		$objFAQs = $objFolder->getFolder
+			("FAQs", ldrGlobals::cClass_Common_FAQs());
+
+		$szImagePath = "../../../Images/Inventory_NoPic.jpg";
+		$szImageThumb = "../../../Images/Inventory_NoPic_Thumb.jpg";
+?>
+<table border="0"  >
+	<tr valign="top">
+		<td align="center"><img src="<?= $szImagePath ?>"></td>
+		<td>
+			<table border=0>
+				<tr><th align="right">Item No:</th><td>123456</td></tr>
+				<tr><th align="right">Price:</th><td>$0.00</td></tr>
+				<tr><th align="right" colspan=2> --- Add To Cart --- </th></tr>
+				<tr><th align="right" colspan=2> &nbsp; </th></tr>
+				<tr><th align="right" colspan=2> --- Dimensions --- </th></tr>
+				<tr><th align="right">Width:</th><td>0.00 inches</td></tr>
+				<tr><th align="right">Height:</th><td>0.00 inches</td></tr>
+				<tr><th align="right">Depth:</th><td>0.00 inches</td></tr>
+				<tr><th align="right">Weight:</th><td>0.00 lbs</td></tr>
+				<tr><th align="right">PackageType:</th><td>Box</td></tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td >
+		<table border=0>
+			<tr>
+				<td><img src="<?= $szImageThumb ?>"></td>
+				<td><img src="<?= $szImageThumb ?>"></td>
+				<td><img src="<?= $szImageThumb ?>"></td>
+				<td><img src="<?= $szImageThumb ?>"></td>
+				<td><img src="<?= $szImageThumb ?>"></td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+</table>
+
+<table border="0">
+	<tr>
+		<th align="right">Description:</th><td><?= $objDescription->Field("szNote") ?></td>
+	</tr>
+
+	<tr>
+		<th align="right">Features:</th><td><?= $objFeatures->Field("szNote") ?></td>
+	</tr>
+
+	<tr>
+		<th align="right">Specifications:</th><td><?= $objSpecifications->Field("szNote") ?></td>
+	</tr>
+	<tr>
+		<th align="right">RelatedTo:</th><td><?= $objRelatedTo->ID() ?></td>
+	</tr>
+	<tr>
+		<th align="right">Reviews:</th><td><?= $objReviews->ID() ?></td>
+	</tr>
+	<tr>
+		<th align="right">FAQs:</th><td><?= $objFAQs->ID() ?></td>
+	</tr>
+	<tr>
+		<th align="right">Keywords:</th><td><?= $objKeywords->ID() ?></td>
+	</tr>
+</table>
+
+<?
+	}
+?>
+
+<body>
+<html>
+<?
+}
+?>

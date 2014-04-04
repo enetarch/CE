@@ -1,0 +1,212 @@
+										# Allowed	
+Name Space	Class Heirarchy								Type		
+											
+Site	Site								Folder		
+	|-	Apps							Folder	1	
+	|	|-	Apps						Folder	n	
+	|	|-	App						Item	n	
+	|-	Help							Folder	1	
+	|-	Policies							Folder	1	
+		|-	Policies						Folder	n	
+		|-	Policy						Item	n	
+											
+Security	Security								Folder		
+	|-	Groups							Folder	1	
+	|	|-	Group(s)						Folder	n	
+	|	|	|-	User(s)					Reference	n	
+	|	|	|-	Policies							
+	|										
+	|-	Users							Folder	1	
+		|-	User (s)						Folder	n	
+			|-	Policies					Folder	1	
+			|-	ACLs					Folder	1	
+			|	|-	ACL(s)				Folder	n	
+			|		|-	User			Reference	n	
+			|		|-	Group			Reference	n	
+			|		|-	ACL_Rights			Item	1	
+			|								
+			|								
+			|								
+			|								
+			|								
+			|								
+			|-	Login					Item	1	
+											
+											
+											
+											
+											
+Company	Company								Folder		
+	|-	Ads							Folder	1	
+	|-	Articles							Folder	1	
+	|-	Contact Us							Folder	1	
+	|-	Feed Back							Folder	1	
+	|-	Policies							Folder	1	
+	|-	Inventory							Folder	1	
+	|-	FAQs							Folder	1	
+											
+Ads	Ad								Folder		
+	|-	Header							Item	1	
+	|										
+	|										
+	|										
+	|-	Clicks							Folder	1	
+	|	|-	Click(s)						Item	n	
+	|-	Image URL							Item	1	
+	|-	Target URL							Item	1	
+											
+Articles	Article										
+	|-	Blurb							Item	1	
+	|-	Content							Item	1	
+	|-	Author							Item	1	
+	|-	Published							Item	1	
+											
+Inventory	Inventory								Folder		
+	|-	Catagroies							Folder		n
+	|	|-	Category						Foler		n
+	|		|-	Item_ref						References		n
+	|
+	|-	Items							Folder		n
+	|	|-	Item						Foler		n
+	|		|-	Item #					Item		1
+	|		|-	Keywords					Folder		1
+	|		|	|-	Keyword				Item		n
+	|		|-	Dimensions					Folder		1
+	|     |	|-	Height				Item		1
+	|		|	|-	Width				Item		1
+	|		|	|-	Depth				Item		1
+	|		|	|-	Weight				Item		1
+	|		|-	Package Type					Item		1
+	|		|-	Specifications					Item		1
+	|		|-	Features					Item		1
+	|		|-	Description					Item		1
+	|		|-	Related Items					Folder		1
+	|		|	|-	Related Item				Reference		1
+	|		|-	Taxable					Item		
+	|		|-	Images					Folder		1
+	|		|	|-	Image(s)				Item		n
+	|		|-	Pricing					Folder		1
+	|		|	|-	Price(s)				Item		n
+	|		|								
+	|
+	|-	Package Types							Folder		1
+		|-	Package Type						Item		n
+											
+Shopping Cart	Shopping Cart								Folder		
+	|-	Orders							Folder		1
+		|-	Order(s)						Folder		n
+											
+Orders	Order								Folder		n
+	|-	Client							Reference		1
+	|-	Ordered							Item		1
+	|-	Line Items							Folder		1
+	|	|-	Line Item						Folder		n
+	|-	Amount							Item		1
+	|-	Status							Item		1
+	|-	Notes							Item		1
+	|-	Invoice							Reference		1
+											
+Clients	Client								Folder		
+	|-	iName							Item		1
+	|-	Discount Code							Item		1
+	|-	Taxable							Item		1
+	|-	Billing							Folder		1
+	|	|-	Address						Item		1
+	|	|-	Department						Item		1
+	|	|-	Position						Item		1
+	|	|-	Contacts						Folder		1
+	|		|-	Contact(s)					Folder		n
+	|			|-	Method				Item		1
+	|			|-	Type				Item		1
+	|-	Shipping							Folder		1
+		|-	Address						Item		1
+		|-	Department						Item		1
+		|-	Position						Item		1
+		|-	Contacts						Folder		1
+			|-	Contact(s)					Folder		n
+				|-	Method				Item		1
+				|-	Type				Item		1
+											
+LineItem	LineItem								Folder		
+	|-	Quantity							Item		1
+	|-	Inventory Item							Reference		1
+	|-	Credits							Folder		1
+		|-	Credit(s)						Reference		n
+	|-	Taxable							Item		1
+	|-	Amount							Item		1
+											
+Accounts Recievable	Account										
+	|-	Client							Reference		1
+	|-	Invoices							Folder		1
+	|	|-	Invoice						Folder		n
+	|-	Credits							Folder		1
+	|	|-	Credit Memo						Folder		n
+	|-	Payments							Folder		1
+	|-	Fees							Folder		1
+	|	|-	Amount						Item		n
+	|-	Reimbursements							Folder		1
+	|	|-	Amount						Item		n
+	|-	Notes							Folder		1
+	|-	RMAs							Folder		1
+											
+Invoices	Invoice								Folder		
+	|-	Client							Reference		1
+	|-	Header							Item		1
+	|-	Shipping							Folder		1
+	|	|-	Shipped								1
+	|	|									
+	|	|-	Shipper						Reference		1
+	|	|-	Tracking								1
+	|-	Items							Folder		1
+	|	|-	Line Item						Folder		n
+	|-	Amount							Item		1
+	|-	Payments							Folder		1
+	|	|-	Payment						Reference		n
+	|-	Status							Item		1
+	|-	Notes							Item		1
+	|-	Order							Reference		1
+											
+Shippers	Shipper								Folder		
+	|-	Methods							Folder		1
+	|	|-	Method(s)						Folder		n
+	|		|-	Distance					Item		1
+	|		|-	Weight					Item		1
+	|		|-	Cost					Item		1
+	|-	Contacts							Folder		1
+											
+											
+											
+											
+											
+RMAs	RMA								Folder		
+	|-	Invoice							Reference		1
+	|-	Credit							Reference		n
+	|-	Returns							Folder		1
+	|-	Amount							Item		1
+	|-	Date Credited							Item		1
+	|-	Replacement							Reference		1
+	|-	Date Replaced							Item		1
+											
+											
+Payments	Payment(s)								Folder		n
+	|-	Amount							Item		1
+	|-	Method							Item		1
+	|-	Tracking							Item		1
+											
+											
+Credits	Credit								Folder		
+	|-	Client							Reference		1
+	|-	Ordered							Item		1
+	|-	Invoice							Reference		1
+	|-	RMA							Reference		1
+	|-	RMA Recived							Item		1
+	|-	Date Recived							Item		1
+	|-	Returns							Folder		1
+	|-	Amount							Item		1
+	|-	Notes							Item		1
+											
+											
+Returns	Returned								Folder		
+	|-	Quantity							Item		1
+	|-	LineItem							Reference		1
+											

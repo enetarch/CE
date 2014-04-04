@@ -1,0 +1,27 @@
+<html>
+<script src="js/3rdparty/jquery-1.10.2.min.js"></script>
+<body>
+</body>
+
+<script id="template" type="text/text">
+    <a href="javascript:void());" id="row_[?= t ?]" value="[?= t ?]">Hello World - [?= t ?]</a><p>
+</script>
+
+
+<script>
+var szTemplate = $("#template").html ();
+for (var t=0; t<10; t++)
+{
+    szNew = szTemplate.replace ("[?= t ?]", t);
+    szNew = szNew.replace ("[?= t ?]", t);
+    szNew = szNew.replace ("[?= t ?]", t);
+    $("body").append ( szNew );
+    $("#row_"+t).click (onClick);
+}
+
+function onClick()
+{ window.alert ( $(this).attr("value") ); }
+	
+</script>
+
+</html>

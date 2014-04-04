@@ -1,0 +1,592 @@
+body 
+{ 
+	padding : 0px;
+	border : 0px;
+	margin : 0px;
+}
+
+.debug
+{ 
+	display : block;
+	clear : both; 
+	float : left; 
+	border : 1px solid tan; 
+}
+
+/* ============================================= */
+
+.titlebar 
+{ 
+	background-image : url("../images/topbar_background.png");  	
+	background-size : cover;
+	background-repeat : no-repeat;
+	background-position : center; 	
+
+	width : 500px; 
+	height : 42px; 
+	float : none; 
+	clear : both;
+	vertical-align : middle;
+	padding : 4px;
+	// border : 1px solid tan;
+}
+
+.titlebar_back
+{
+	background-image : url("../images/icon_Back.png");  	
+	background-repeat : no-repeat;
+	background-position : center; 	
+	width : 20px; 
+	height : 42px; 
+	float : left;
+ }
+ 
+.titlebar_logo 
+{
+	background-image : url("../images/CE_logo.png");  	
+	background-repeat : no-repeat;
+	background-position : center; 
+	width : 42px; 
+	height : 42px; 
+	float : left;
+ }
+ 
+.titlebar_name 
+{ 
+	float : left;
+	font-size : 2em;
+	font-color : white;
+	color : white;
+	padding-left : 8px;
+	vertical-align : middle;
+	height : 42px; 
+}
+
+.titlebar_save
+{
+	margin : 2px;
+	float : right;
+	width : 42px; 
+	height : 42px; 
+	background-image : url("../images/icon_Save.png");  	
+	background-repeat : no-repeat;
+	background-position : center; 
+}
+
+.titlebar_add
+{
+	margin : 2px;
+	float : right;
+	width : 42px; 
+	height : 42px; 
+	background-image : url("../images/icon_Add.png");  	
+	background-repeat : no-repeat;
+	background-position : center; 
+}
+
+.titlebar_add:hover {	background-color : tan; }
+
+.titlebar_edit
+{
+	margin : 2px;
+	float : right;
+	width : 45px; 
+	height : 40px; 
+	background-image : url("../images/icon_Edit.png");  	
+	background-repeat : no-repeat;
+	background-position : center; 
+}
+
+.titlebar_refresh
+{
+	margin : 2px;
+	float : right;
+	width : 45px; 
+	height : 40px; 
+	background-image : url("../images/icon_Refresh.png");  	
+	background-repeat : no-repeat;
+	background-position : center; 
+}
+
+.titlebar_calendar
+{
+	margin : 2px;
+	float : right;
+	width : 50px; 
+	height : 40px; 
+	background-image : url("../images/icon_Calendar.png") ;  	
+	background-repeat : no-repeat;
+	background-position : center; 
+//	background-attachment : fixed;
+}
+
+
+.titlebar_options
+{
+	margin : 2px;
+	float : right;
+	width : 50px; 
+	height : 40px; 
+	background-image : url("../images/icon_Options.png") ;  	
+	background-repeat : no-repeat;
+	background-position : center; 
+//	background-attachment : fixed;
+}
+
+.titlebar_exit
+{
+	margin : 2px;
+	float : right;
+	width : 32px; 
+	height : 42px; 
+	background-image : url("../images/icon_Exit.png");  	
+	background-repeat : no-repeat;
+	background-position : center; 	
+}
+
+/* ============================================= */
+.list_table
+{
+	width : 100%;
+}
+
+.blank_row
+{
+	overflow : auto;
+	width : 400px; 
+	height : auto; 
+	margin : 5px;
+	padding : 2px;
+	float : none; 
+	clear : both;
+	vertical-align : middle;
+}
+
+.blank_row:hover  {	background-color : tan; }
+
+.row_vcenter 
+{
+	margin : auto 0px auto 0px;
+	display : inline-block;
+}
+
+.row_bottom { float : bottom; }
+
+.form_row
+{
+	display : block;
+	clear : both;
+	margin : 1px 1px 1px 1px;
+	overflow : auto;
+}
+
+.form_label_text { font-size :  1.5em; }
+.form_full_column 
+{ 
+	width : 85%;  
+	// height : 40px;
+	border : 1px solid lightblue; 
+	float : left;
+	overflow : auto;
+	padding : 2px;
+}
+.form_label_column 
+{ 
+	width : 30%;  
+	// height : 40px;
+	border : 1px solid lightblue; 
+	float : left;
+	overflow : auto;
+	padding : 2px;
+}
+
+.form_field_text { font-size :  1.5em; }
+.form_field_height { height :  width: 100%; }
+.form_field_width { height :  width: 100%; }
+.form_field_border {  border: 1px solid tan; }
+
+.form_field_column 
+{ 
+	width : 55%;  
+	height : 24px;
+	border : 1px solid lightblue; 
+	float : left;
+	overflow : auto;
+	padding : 2px;
+}
+
+.form_label_search
+{ 
+	margin : 10px 0px 0px 0px;
+	float : left;
+}
+
+.form_search_text { font-size :  1.5em; }
+.form_search_column 
+{ 
+	margin : 0px 0px 0px 0px;
+	float : left;
+}
+
+.form_search_icon
+{
+	float : left;
+	width : 32px; 
+	height : 42px; 
+	background-image : url("../images/icon_Search.png") ;  	
+	background-repeat : no-repeat;
+	background-position : center; 	
+}
+
+.form_text_align_left { text-align : left; }
+.form_text_align_right { text-align : right; }
+.form_text_align_center { text-align : center; }
+
+/* ============================================= */
+
+.table_width { width : 100%; }
+
+/* ============================================= */
+
+.background_50pct { background-image :  url("../images/background_50.png") ; }
+.background_75pct { background-image :  url("../images/background_75.png") ; }
+.background_Solid { background-color : white; }
+
+.options_panel_background
+{
+	position : absolute;
+
+	display : none;
+
+	width : 100%;
+	height : 100%;
+
+	z-index : 50;
+
+	float : none; 
+	clear : both;
+}
+
+.options_panel 
+{
+	border : 5px solid tan;
+	margin : 10px;
+	padding : 10px;
+
+	// visibility : hidden;
+	// display : none;
+
+	left : 0px;
+	top : 50px;
+	width : 450px; 
+	// height : 560px; 
+}
+
+/* ============================================= */
+
+.data_panel 
+{
+	width : 500px; 
+	// height : 560px; 
+	overflow-y: auto;
+	float : none; 
+	clear : both;
+	// border : 1px solid tan;
+}
+
+#panel_forgotpsw
+{ 
+	text-align : center;
+}
+
+#panel_login 
+{ 
+	text-align : center;
+}
+
+#panel_register { margin : 4px; }
+#panel_workorder { margin : 4px; }
+
+/* ============================================= */
+
+#appbutton_catagories_image { background-image : url("../images/icon_App_Catagories.png") ; }
+#appbutton_timeline_image { background-image : url("../images/icon_App_TimeLine.png") ; }
+#appbutton_ledger_image { background-image : url("../images/icon_App_Ledger.png") ; }
+#appbutton_accounting_image { background-image : url("../images/icon_App_Accounting.png") ; }
+#appbutton_banking_image { background-image : url("../images/icon_App_Banking.png") ; }
+#appbutton_vendors_image { background-image : url("../images/icon_App_Vendors.png") ; }
+#appbutton_calendar_image { background-image : url("../images/icon_App_Calendar.png") ; }
+#appbutton_todos_image { background-image : url("../images/icon_App_Todos.png") ; }
+#appbutton_clients_image { background-image : url("../images/icon_App_Client.png") ; }
+#appbutton_inventory_image { background-image : url("../images/icon_App_Inventory.png") ; }
+#appbutton_items_image { background-image : url("../images/icon_App_Inventory.png") ; }
+#appbutton_trucks_image { background-image : url("../images/icon_App_Truck.png") ; }
+#appbutton_employees_image { background-image : url("../images/icon_App_BaseballCap.png") ; }
+#appbutton_security_image { background-image : url("../images/icon_App_Shield.png") ; }
+#appbutton_locations_image { background-image : url("../images/icon_App_Location.png") ; }
+#appbutton_workorders_image { background-image : url("../images/icon_App_WorkOrder.png") ; }
+#appbutton_messages_image { background-image : url("../images/icon_App_Message.png") ; }
+
+#appbutton_Invoice_image { background-image : url("../images/icon_App_Invoice.png") ; }
+#appbutton_PO_image { background-image : url("../images/icon_App_Invoice.png") ; }
+#appbutton_Quote_image { background-image : url("../images/icon_App_Quote.png") ; }
+#appbutton_Return_image { background-image : url("../images/icon_App_Return.png") ; }
+#appbutton_Credit_image { background-image : url("../images/icon_App_Credit.png") ; }
+#appbutton_Credits_image { background-image : url("../images/icon_App_Credit.png") ; }
+#appbutton_Charges_image { background-image : url("../images/icon_App_Charge.png") ; }
+#appbutton_Reimburse_image { background-image : url("../images/icon_App_Reimburse.png") ; }
+#appbutton_Payment_image { background-image : url("../images/icon_App_Payment.png") ; }
+#appbutton_Payments_image { background-image : url("../images/icon_App_Payment.png") ; }
+#appbutton_PayChecks_image { background-image : url("../images/icon_App_Payment.png") ; }
+#appbutton_Checks_image { background-image : url("../images/icon_App_Payment.png") ; }
+#appbutton_Notes_image { background-image : url("../images/icon_App_Notes.png") ; }
+#appbutton_Overdue_image { background-image : url("../images/icon_App_Overdue.png") ; }
+#appbutton_Statement_image { background-image : url("../images/icon_App_Statement.png") ; }
+#appbutton_Order_image { background-image : url("../images/icon_App_ShoppingCart.png") ; }
+#appbutton_Orders_image { background-image : url("../images/icon_App_ShoppingCart.png") ; }
+#appbutton_Fees_image { background-image : url("../images/icon_BrokenPiggy.png") ; }
+#appbutton_Deposit_image { background-image : url("../images/icon_App_Deposit.png") ; }
+#appbutton_Bank_Transfer_image { background-image : url("../images/icon_App_Bank_Transfer.png") ; }
+#appbutton_Expenses_image { background-image : url("../images/icon_App_Bank_Transfer.png") ; }
+
+#appbutton_Explorer_image { background-image : url("../images/icon_App_Folder.png") ; }
+
+#appbutton_Rolodex_image { background-image : url("../images/icon_App_Rolodex.png") ; }
+#appbutton_Settings_image { background-image : url("../images/icon_App_Settings.png") ; }
+#appbutton_Projects_image { background-image : url("../images/icon_App_Projects.png") ; }
+
+/* ============================================= */
+
+.appbutton
+{
+	width : 150px;
+	height :  150px;
+	border : 1px solid tan;
+	margin : 2px;
+	padding : 2px;
+	float : left;
+	text-align : center;
+}
+
+.appbutton_image
+{
+	background-repeat : no-repeat;
+	background-position : center; 	
+	background-size : 100px 100px;
+	width : 100px; 
+	height : 100px;
+	margin : 4px auto 4px auto; 
+}
+
+
+.appbutton_text
+{
+	font-size : 2em;
+	text-align : center;
+	margin :  4px auto auto 0px;
+}
+
+/* ============================================= */
+
+.viewmore
+{
+	background-repeat : no-repeat;
+	background-position : center; 	
+	background-size : 42px 42px;
+	
+	float :  right;
+	width : 42px; 
+	height : 42px;
+	margin : 0px 4px 0px 4px; 
+}
+
+
+.list_seperator_line
+{
+	border : 1px solid black;
+	background-color : black;
+}
+
+.list_viewmore
+{
+	float :  right;
+	background-image : url("../images/icon_RightArrow.png") ; 
+	background-repeat : no-repeat;
+	background-position : center; 	
+	background-size : 42px 42px;
+	width : 42px; 
+	height : 42px;
+	margin : 0px 4px 0px 4px; 
+}
+
+#client_list
+{
+	width : 100%;
+}
+
+#client_list tr
+{
+	border : 1px solid black;
+}
+
+#client_list tr td#moreinfo
+{
+	text-align : right;
+}
+
+/* ============================================= */
+
+.buttonbar_float_left { float : left; }
+.buttonbar_float_center { float : center; }
+.buttonbar_float_right{ float : right; }
+
+.buttonbar_border { border : 1px solid tan; }
+
+.buttonbar_droplist_arrow
+{
+	background-repeat : no-repeat;
+	background-position : center; 	
+	background-size : 24px 24px;
+
+	width : 24px;
+	height : 24px; 
+	margin : 0px 1px 0px 1px;
+}
+
+.buttonbar_button
+{
+	background-repeat : no-repeat;
+	background-position : center; 	
+
+	width : 48px;
+	height : 48px; 
+	margin : 0px 1px 0px 1px;
+}
+
+#buttonbar 
+{
+	background-image : url("../images/buttonbar_background.png");  	
+	background-size : cover;
+	background-repeat : no-repeat;
+	background-position : center; 	
+
+	width : 500px; 
+	height : 50px; 
+	float : none; 
+	clear : both;
+	vertical-align : middle;
+	padding : 4px;
+}
+
+.buttonbar_add { background-image : url("../images/icon_Add.png");  }
+.buttonbar_sort { background-image : url("../images/icon_SortAZ.png");  }
+
+.buttonbar_viewmore { background-image : url("../images/icon_RightArrow.png") ;  }
+
+.buttonbar_LeftArrow { background-image : url("../images/icon_LeftArrow.png") ;  }
+.buttonbar_UpArrow { background-image : url("../images/icon_UpArrow.png") ;  }
+.buttonbar_RightArrow { background-image : url("../images/icon_RightArrow.png") ;  }
+.buttonbar_DownArrow { background-image : url("../images/icon_DownArrow.png") ;  }
+
+.buttonbar_contactinfo{ background-image : url("../images/icon_ContactInfo.png"); }
+.buttonbar_workorders { background-image : url("../images/icon_WorkOrder.png"); }
+.buttonbar_billing{ background-image : url("../images/icon_ShoppingCart.png"); }
+.buttonbar_invoices { background-image : url("../images/icon_Invoice.png"); }
+.buttonbar_calllog { background-image : url("../images/icon_CallLog.png"); }
+.buttonbar_locations { background-image : url("../images/icon_StoreFront.png"); }
+.buttonbar_calendar { background-image : url("../images/icon_Calendar.png"); }
+
+.buttonbar_technician { background-image : url("../images/icon_Technician.png"); }
+.buttonbar_traveling { background-image : url("../images/icon_Traveling.png"); }
+.buttonbar_arrived { background-image : url("../images/icon_Arrived.png"); }
+.buttonbar_start { background-image : url("../images/icon_Start.png"); }
+.buttonbar_pause { background-image : url("../images/icon_Pause.png"); } 
+.buttonbar_stop { background-image : url("../images/icon_Stop.png"); }
+.buttonbar_calendar { background-image : url("../images/icon_Calendar.png"); }
+.buttonbar_todos { background-image : url("../images/icon_Todos.png"); }
+.buttonbar_todos_B4 { background-image : url("../images/icon_Todos.png"); }
+.buttonbar_todos_During { background-image : url("../images/icon_Todos.png"); }
+.buttonbar_todos_Next { background-image : url("../images/icon_Todos.png"); }
+.buttonbar_notes { background-image : url("../images/icon_Notes.png"); }
+.buttonbar_logs { background-image : url("../images/icon_Logs.png"); }
+.button_signature { background-image : url("../images/icon_Signature.png"); }
+
+.buttonbar_Invoice { background-image : url("../images/icon_Invoice.png") ; }
+.buttonbar_Quote { background-image : url("../images/icon_Quote.png") ; }
+.buttonbar_Return { background-image : url("../images/icon_Return.png") ; }
+.buttonbar_Credit { background-image : url("../images/icon_Credit.png") ; }
+.buttonbar_Reimburse { background-image : url("../images/icon_Reimburse.png") ; }
+.buttonbar_Payment { background-image : url("../images/icon_Payment.png") ; }
+.buttonbar_Overdue { background-image : url("../images/icon_Overdue.png") ; }
+.buttonbar_Fees { background-image : url("../images/icon_BrokenPiggy.png") ; }
+.buttonbar_Statement { background-image : url("../images/icon_Statement.png") ; }
+.buttonbar_truck { background-image : url("../images/icon_Truck.png") ; }
+.buttonbar_add { background-image : url("../images/icon_Add.png") ; }
+.buttonbar_delete { background-image : url("../images/icon_Delete.png") ; }
+.buttonbar_inventory { background-image : url("../images/icon_Inventory.png") ; }
+
+.buttonbar_radiobutton { background-image : url("../images/icon_RadioButton.png") ; }
+.buttonbar_close { background-image : url("../images/icon_Close.png") ; }
+.buttonbar_options { background-image : url("../images/icon_Options.png") ;  }
+
+.buttonbar_radiobutton_on { background-image : url("../images/icon_RadioButton_On.png") ; }
+.buttonbar_radiobutton_off { background-image : url("../images/icon_RadioButton_Off.png") ; }
+
+.buttonbar_checkbox_on { background-image : url("../images/icon_CheckBox_On.png") ; }
+.buttonbar_checkbox_off { background-image : url("../images/icon_CheckBox_Off.png") ; }
+
+.buttonbar_Folder { background-image : url("../images/icon_Folder.png") ; }
+.buttonbar_Item { background-image : url("../images/icon_Item.png") ; }
+.buttonbar_Reference { background-image : url("../images/icon_Reference.png") ; }
+
+.buttonbar_paste { background-image : url("../images/icon_ClipBoard.png") ; }
+.buttonbar_home { background-image : url("../images/icon_Home.png") ; }
+.buttonbar_up { background-image : url("../images/icon_UpArrow.png") ; }
+.buttonbar_search { background-image : url("../images/icon_Search.png") ; }
+.buttonbar_view { background-image : url("../images/icon_View.png") ; }
+.buttonbar_create { background-image : url("../images/icon_NewFolder.png") ; }
+.buttonbar_refresh { background-image : url("../images/icon_Refresh.png") ; }
+
+.buttonbar_Open { background-image : url("../images/icon_Open.png") ; }
+.buttonbar_Rename { background-image : url("../images/icon_Edit.png") ; }
+.buttonbar_Delete { background-image : url("../images/icon_Delete.png") ; }
+.buttonbar_Copy { background-image : url("../images/icon_Copy.png") ; }
+.buttonbar_Move { background-image : url("../images/icon_Move.png") ; }
+.buttonbar_Duplicate { background-image : url("../images/icon_Duplicate.png") ; }
+.buttonbar_Properties { background-image : url("../images/icon_Properties.png") ; }
+
+
+.slider_size
+{
+	background-repeat : no-repeat;
+	background-position : center; 	
+
+	float : left;
+	width : 120px;
+	height : 40px; 
+	margin : 0px 1px 0px 1px;
+
+	border : 1px solid tan;
+}
+
+.slider_onoff { background-image : url("../images/slider_OnOff.png"); }
+
+/* ============================================= */
+
+#panel_Calendar { text-align : center; }
+
+table.calendar_table_cell { border : 1px solid tan; margin: auto; }
+table.calendar_table_cell tr td 
+{ 
+	border : 1px solid tan;
+	text-align : center;
+	padding : 4px;
+}
+
+.calendar_font_nav { font : 2em arial; }
+.calendar_month { font : 2em arial; }
+.calendar_font { font : 3em arial; }
+.calendar_bold { font-weight : bold; }
+.calendar_highlight { color :  red; }
+
+/* ============================================= */

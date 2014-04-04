@@ -1,0 +1,1170 @@
+var webapp = 
+{
+	init : function (szPage) 
+	{
+		// show user authentication page
+		var me = this;
+		if (szPage.length == 0)
+		{	me.page_Security_Login.show (); }
+		else
+		{ webapp ["page_" + szPage].show (); }
+	},
+	
+	getPage : function (szPage, szParams, cbPageInit)
+	{
+			var szCommand = 
+				"szCommand=getPage&" +
+				"szPage=" + szPage + "&" +
+				"szParams=" + szParams + "&";
+				
+			$.ajax (
+			{
+				url : "index.php",
+				method : "POST",
+				data : szCommand,
+				success : function (szHtml) 
+				{
+					 if (szHtml.length >0)
+					 {
+						 $("body").html (szHtml + "<div id=\"debug\"></div>"); 
+						 if (cbPageInit) 
+							cbPageInit (); 
+					}
+					else
+					{
+						window.alert ("nothing returned");
+					}
+				},
+				error : function ()
+				{ window.alert ("ajax call failed"); },
+			});
+	},
+
+	queryServer : function (szCommand, szParams, cb)
+	{
+			var szCommand = 
+				"szCommand=" + szCommand + "&" +
+				"szParams=" + szParams + "&";
+				
+			$.ajax (
+			{
+				url : "query.php",
+				method : "POST",
+				data : szCommand,
+				success : function (szJSON) 
+				{
+					$("#debug").html ("szCommand = " + szCommand + "<BR> szJson = " + szJSON + "<BR>");
+					
+					 var objJSON = jQuery.parseJSON (szJSON);
+					 if (cb) 
+						cb (objJSON); 
+				},
+				error : function ()
+				{ window.alert ("ajax call failed"); },
+			});
+	},
+	
+	jsonReplace : function (objData, szString)
+	{
+		if (szString == null) return ("");
+		
+		for (var t=0; t<objData.length; t++)
+		{
+			szString = szString.replace ("[?= " + objData[t].field + " ?]", objData[t].data);
+		}
+		return (szString);
+	},
+	
+	// ========================================================
+	
+	pages : {},
+	
+	history : {},
+	
+	goBack : function () {},
+	
+	// ========================================================
+
+	page_Security_Login : 
+	{
+		szPageURL : "Security_Login",
+		txt_username : "field_username",
+		txt_password : "field_password",
+		btn_submit : "button_submit",
+		btn_forgotPSW : "button_forgotpsw",
+		btn_register : "button_register",
+		
+		show : function ()
+		{
+			var me = webapp.page_Security_Login;
+			
+			webapp.getPage (me.szPageURL, "", me.pageInit);
+		},
+		
+		pageInit : function ()
+		{
+			var me = webapp.page_Security_Login;
+			
+			$("#" + me.btn_submit).click ( function () { me.cmdLogin (); } );
+			$("#" + me.btn_register).click ( function () { me.cmdRegister (); } );
+			$("#" + me.btn_forgotPSW).click ( function () { me.cmdForgotPSW (); } );
+		},
+		
+		cmdLogin : function ()
+		{
+			var me = webapp.page_Security_Login;
+			
+			var txtUID = $("#" + me.txt_username).val();
+			var txtPSW = $("#" + me.txt_password).val();
+			
+			var szData = 
+				"szUID=" + txtUID + "&" +
+				"szPSW=" + txtPSW + "&";
+				
+			webapp.queryServer ("security::login", szData, me.cmdLogin_Success);
+		},
+		
+		cmdLogin_Success : function (rtn)
+		{
+			if (rtn)
+			{ webapp.page_Home.show(); }
+			else
+			{ alert ("login failed"); }
+		},
+
+		cmdRegister : function ()
+		{ webapp.page_Security_Register.show(); },
+		
+		cmdForgotPSW : function ()
+		{ webapp.page_Security_ForgotPSW.show(); },
+	},
+	
+	// ======================================================
+
+	page_Security_ForgotPSW :
+	{
+		szPageURL : "Security_ForgotPSW",
+		btn_Back : "titlebar_back",
+		show : function ()
+		{
+			var me = webapp.page_Security_ForgotPSW;
+			
+			webapp.getPage (me.szPageURL, "", me.pageInit);
+		},
+		
+		pageInit : function ()
+		{
+			var me = webapp.page_Security_ForgotPSW;
+			
+			$("#" + me.btn_Back).click (function () { me.cmdBack (); } );
+		},
+		
+		cmdBack : function ()
+		{ webapp.page_Security_Login.show(); },
+	
+	},
+	
+	// ======================================================
+
+	page_Security_Register :
+	{
+		szPageURL : "Security_Register",
+		btn_Back : "titlebar_back",
+		btn_Register : "button_register",
+		panel_Register : "panel_register",
+		
+		show : function ()
+		{
+			var me = webapp.page_Security_Register;
+			
+			webapp.getPage (me.szPageURL, "", me.pageInit);
+		},
+		
+		pageInit : function ()
+		{
+			var me = webapp.page_Security_Register;
+			
+			$("#" + me.panel_Register).css ("margin", "4px");
+			$("#" + me.btn_Back).click (function () { me.cmdBack (); } );
+			$("#" + me.btn_Register).click (function () { me.cmdRegister (); } );
+		},
+		
+		cmdBack : function ()
+		{ webapp.page_Security_Login.show(); },
+		
+		cmdRegister : function ()
+		{
+			var szData = 
+				"szUID=" + $("#" + me.field_username).val() + "&";
+			
+			webapp.queryServer ("security::login", szData, me.cmdLogin_Success);
+		}
+	},
+	
+	// ======================================================
+	
+	page_Home :
+	{
+		szPageURL : "Home",
+		btn_Exit : "titlebar_exit",
+		btn_Accounting : "button_accounting",
+		btn_Calendar : "button_calendar",
+		btn_Todos : "button_todos",
+		btn_Clients : "button_clients",
+		btn_Locations : "button_locations", 
+		btn_WorkOrders : "button_workorders", 
+		btn_Employees : "button_employees", 
+		btn_Inventory : "button_inventory", 
+		btn_Trucks : "button_trucks", 
+		btn_Security : "button_security", 
+		btn_Messages : "button_messages", 
+		btn_Timer : "button_timer", 
+		
+		show : function ()
+		{
+			var me = webapp.page_Home;
+			
+			webapp.getPage (me.szPageURL, "", me.pageInit);
+		},
+
+		pageInit : function ()
+		{
+			var me = webapp.page_Home;
+			
+			$("#" + me.btn_Options).click (function () { me.cmdOptions (); } );
+			$("#" + me.btn_Exit).click (function () { me.cmdExit (); } );
+
+			$("#" + me.btn_Accounting).click (function () { me.cmdAccounting (); } );
+			$("#" + me.btn_Calendar).click (function () { me.cmdCalendar (); } );
+			$("#" + me.btn_Todos).click (function () { me.cmdTodos (); } );
+
+			$("#" + me.btn_Clients).click (function () { me.cmdClients (); } );
+			$("#" + me.btn_Locations).click (function () { me.cmdLocations (); } );
+			$("#" + me.btn_WorkOrders).click (function () { me.cmdWorkOrders (); } );
+			$("#" + me.btn_Employees).click (function () { me.cmdEmployees (); } );
+			$("#" + me.btn_Inventory).click (function () { me.cmdInventory (); } );
+			$("#" + me.btn_Trucks).click (function () { me.cmdTrucks (); } );
+			$("#" + me.btn_Security).click (function () { me.cmdSecurity (); } );
+
+			$("#" + me.btn_Messages).click (function () { me.cmdMessanger (); } );
+
+			$("#" + me.btn_Timer).click (function () { me.cmdTimer (); } );
+			
+			var w =window.innerWidth
+			|| document.documentElement.clientWidth
+			|| document.body.clientWidth;
+
+			var h =window.innerHeight
+			|| document.documentElement.clientHeight
+			|| document.body.clientHeight;
+
+			$("#debug").html ( w + ", " + h );
+		},
+		
+		cmdClients : function ()
+		{ webapp.page_Clients_List.show(); },
+		
+		cmdLocations : function ()
+		{ webapp.page_Locations_List.show(); },
+		
+		cmdWorkOrders : function ()
+		{ webapp.page_WorkOrders_List.show(); },
+		
+		cmdEmployees : function ()
+		{ webapp.page_Employees_List.show(); },
+		
+		cmdInventory : function ()
+		{ webapp.page_Inventory_List.show(); },
+		
+		cmdTrucks : function ()
+		{ webapp.page_Trucks_List.show(); },
+		
+		cmdSecurity : function ()
+		{ webapp.page_Security_List.show(); },
+
+		cmdOptions : function ()
+		{ webapp.page_Options.show(); },
+
+		cmdExit : function ()
+		{ webapp.page_Security_Login.show(); },
+		
+		cmdAccounting : function ()
+		{ webapp.page_Accounting_List.show(); },
+
+		cmdCalendar : function ()
+		{ webapp.page_Calendar_List.show(); },
+
+		cmdTodos : function ()
+		{ webapp.page_Todos_List.show(); },
+		
+		cmdMessanger : function ()
+		{ webapp.page_Messanger_List.show(); },
+		
+	},
+	
+	// ======================================================
+
+	page_Accounting_Home
+	{
+		
+	},
+	
+	// ======================================================
+	
+	page_Clients_List :
+	{
+		szPageURL : "Clients_List",
+		btn_Back : "titlebar_back",
+		btn_Add : "titlebar_add",
+		btn_Refresh : "titlebar_refresh",
+		btn_Options : "titlebar_options",
+		btn_Exit : "titlebar_exit",
+		btn_Search : "button_search",		
+		fld_Search : "field_search",
+		
+		template_List : "client_list_row_template", 
+		tblList : "client_list",
+		get_List :  "clients::list",
+		btn_view : "client_viewmore",
+		
+		show : function ()
+		{
+			var me = webapp.page_Clients_List;
+			
+			webapp.getPage (me.szPageURL, "", me.pageInit);
+		},
+
+		pageInit : function ()
+		{
+			var me = webapp.page_Clients_List;
+
+			$("#" + me.btn_Back).click (function () { me.cmdBack (); } );
+			$("#" + me.btn_Refresh).click (function () { me.cmdRefresh (); } );
+			$("#" + me.btn_Add).click (function () { me.cmdAdd (); } );
+			$("#" + me.btn_Options).click (function () { me.cmdOptions (); } );
+			$("#" + me.btn_Exit).click (function () { me.cmdExit (); } );
+			$("#" + me.btn_Search).click (function () { me.cmdSearch (); } );
+
+			me.cmdRefresh ();
+		},
+
+		cmdBack : function ()
+		{ webapp.page_Home.show(); },
+
+		cmdAdd : function ()
+		{ webapp.page_Client_New.show(); },
+		
+		cmdSearch : function ()
+		{
+			var me = webapp.page_Clients_List;
+			var szTerms = $("#" + me.btn_Search).val();
+			
+			var objData = { terms : szTerms };
+			var szParams = JSON.stringify (objData);
+			
+			$("#" + me.tblClient_List).html ("");
+			
+			webapp.queryServer (me.get_List, szParams, me.draw_List);
+		}, 
+		
+		cmdRefresh : function ()
+		{ 
+			var me = webapp.page_Clients_List;
+			
+			$("#" + me.tblList).html ("");
+			
+			webapp.queryServer (me.get_List, "", me.draw_List);
+		},
+		
+		cmdOptions : function ()
+		{ webapp.page_Options.show(); },
+
+		cmdExit : function ()
+		{ webapp.page_Security_Login.show(); },
+	
+		draw_List : function (objJSON)
+		{
+			var objData = objJSON.return;
+			
+			var me = webapp.page_Clients_List;
+			
+			// need to do some transforms on the JSON object here
+			// then dump it out as HTML
+			
+			var szTemplate = $("#" + me.template_List).html();
+			
+			var szHTML = "";
+			
+			$("#debug").html ("<BR>" + objData.length);
+			
+			for (var t=0; t<objData.length; t++)
+			{
+				// need to mangle the template here
+				
+				szReplaced = webapp.jsonReplace (objData[t], szTemplate);
+				szReplaced = szReplaced.replace ("[?= t ?]", t);
+				
+				$("#" + me.tblList).append (szReplaced);
+				
+				$("#" + me.btn_view + "_" + t).click ( function () 
+					{ 
+						var nID = $("#" + me.btn_view + "_" + t).prop ("value");
+						me.cmdView (nID); 
+					} );
+			}
+		},
+		
+		cmdView : function (nID)
+		{	webapp.page_Client_View.show (nID); }
+	},
+
+	// ======================================================
+
+	page_Client_New : 
+	{
+		szPageURL : "Client_New",
+		btn_Back : "titlebar_back",
+		btn_Options : "titlebar_options",
+		btn_Exit : "titlebar_exit",
+		btn_Add : "button_add",
+		
+		show : function ()
+		{
+			var me = webapp.page_Client_New;
+			
+			webapp.getPage (me.szPageURL, "", me.pageInit);
+		},
+
+		pageInit : function ()
+		{
+			var me = webapp.page_Client_New;
+
+			$("#" + me.btn_Back).click (function () { me.cmdBack (); } );
+			$("#" + me.btn_Options).click (function () { me.cmdOptions (); } );
+			$("#" + me.btn_Exit).click (function () { me.cmdExit (); } );
+			$("#" + me.btn_Add).click (function () { me.cmdAdd (); } );
+		},
+
+		cmdBack : function ()
+		{ webapp.page_Clients_List.show(); },
+
+		cmdOptions : function ()
+		{ webapp.page_Options.show(); },
+
+		cmdExit : function ()
+		{ webapp.page_Security_Login.show(); },
+		
+		cmdAdd : function ()
+		{ 
+			var objData = 
+			{
+				ID : 0,
+				username : "",
+				password : "",
+				firstname : "",
+				lastname : "",
+				street1 : "",
+				street2 : "",
+				city : "",
+				state : "",
+				zip : "",
+				email : "",
+				telephone : "",
+			};
+
+			objData.nID = me.nID;
+			objData.username = $("#field_username").val ();
+			objData.password = $("#field_password").val ();
+			objData.firstname = $("#field_firstname").val ();
+			objData.lastname = $("#field_lastname").val ();
+			objData.street1 = $("#field_street1").val ();
+			objData.street2 = $("#field_street2").val ();
+			objData.city = $("#field_city").val ();
+			objData.state = $("#field_state").val ();
+			objData.zip = $("#field_zip").val ();
+			objData.email = $("#field_email").val ();
+			objData.telephone = $("#field_telephone").val ();
+			
+			var szParams = JSON.stringify (objData);
+			window.alert (szParams);
+			
+			webapp.queryServer ("clients::add", szParams, function (objJSON)
+				{ 
+					var nID = objJSON.return;
+					
+					webapp.page_Client_View.show (nID); 
+				});
+		},
+		
+	},
+
+	// ======================================================
+
+	page_Client_View : 
+	{
+		szPageURL : "Client_View",
+		btn_Back : "titlebar_back",
+		btn_Options : "titlebar_options",
+		btn_Exit : "titlebar_exit",
+		btn_Edit : "titlebar_edit",
+
+		btn_contactinfo : "buttonbar_contactinfo",
+		btn_workorders : "buttonbar_workorders",
+		btn_billing : "buttonbar_billing",
+		btn_invoices : "buttonbar_invoices",
+		btn_calllog : "buttonbar_calllog",
+		btn_locations : "buttonbar_locations",
+		btn_calendar : "buttonbar_calendar",
+
+		nID : 0,
+		
+		show : function (nID)
+		{
+			var me = webapp.page_Client_View;
+			me.nID = nID;
+			
+			var objData = { ID :  me.nID };			
+			var szParams = JSON.stringify ( objData );
+			
+			webapp.getPage (me.szPageURL, szParams, me.pageInit);
+		},
+
+		pageInit : function ()
+		{
+			var me = webapp.page_Client_View;
+
+			$("#" + me.btn_Back).click (function () { me.cmdBack (); } );
+			$("#" + me.btn_Exit).click (function () { me.cmdExit (); } );
+			$("#" + me.btn_Edit).click (function () { me.cmdEdit (me.nID); } );
+
+			$("#" + me.btn_contactinfo).click (function () { me.cmdContactInfo (me.nID); } );
+			$("#" + me.btn_workorders).click (function () { me.cmdWorkorders (me.nID); } );
+			$("#" + me.btn_billing).click (function () { me.cmdBilling (me.nID); } );
+			$("#" + me.btn_invoices).click (function () { me.cmdInvoices (me.nID); } );
+			$("#" + me.btn_calllog).click (function () { me.cmdCalllog (me.nID); } );
+			$("#" + me.btn_locations).click (function () { me.cmdLocations (me.nID); } );
+			$("#" + me.btn_calendar).click (function () { me.cmdCalendar (me.nID); } );
+
+			me.cmdRefresh ();
+		},
+
+		cmdBack : function ()
+		{ webapp.page_Clients_List.show(); },
+
+		cmdEdit : function (nID)
+		{ webapp.page_Client_Edit.show(nID); },
+
+		cmdOptions : function ()
+		{ webapp.page_Options.show(); },
+
+		cmdExit : function ()
+		{ webapp.page_Security_Login.show(); },
+
+		cmdRefresh : function ()
+		{ 
+			var me = webapp.page_Client_View;
+			
+			var objData = { nID : me.nID };
+			var szParam = JSON.stringify ( objData );
+			
+			webapp.queryServer ("client::get", szParam, me.draw_Client);
+		},
+		
+		draw_Client : function (objJSON)
+		{
+			var me = webapp.page_Client_View;
+			var objData = objJSON.return;
+			
+			$("#field_username").html (objData.username);
+			$("#field_firstname").html (objData.firstname);
+			$("#field_lastname").html (objData.lastname);
+			$("#field_street1").html (objData.street1);
+			$("#field_street2").html (objData.street2);
+			$("#field_city").html (objData.city);
+			$("#field_state").html (objData.state);
+			$("#field_zip").html (objData.zip);
+			$("#field_email").html (objData.email);
+			$("#field_telephone").html (objData.telephone);
+		},
+		
+		cmdWorkorders : function (nID)
+		{ webapp.page_WorkOrders_List.show(); },
+		
+	},
+	
+	// ======================================================
+
+	page_Client_Edit : 
+	{
+		szPageURL : "Client_Edit",
+		btn_Back : "titlebar_back",
+		btn_Options : "titlebar_options",
+		btn_Exit : "titlebar_exit",
+		btn_Update : "button_update",
+		nID : 0,
+		
+		show : function (nID)
+		{
+			var me = webapp.page_Client_Edit;
+			me.nID = nID;
+			
+			var objData = { ID : me.nID };
+			var szParams = JSON.stringify ( objData );
+			
+			webapp.getPage (me.szPageURL, szParams, me.pageInit);
+		},
+
+		pageInit : function ()
+		{
+			var me = webapp.page_Client_Edit;
+
+			$("#" + me.btn_Back).click (function () { me.cmdBack (); } );
+			$("#" + me.btn_Options).click (function () { me.cmdOptions (); } );
+			$("#" + me.btn_Exit).click (function () { me.cmdExit (); } );
+			$("#" + me.btn_Update).click (function () { me.cmdUpdate (); } );
+
+			me.cmdRefresh ();
+		},
+
+		cmdBack : function ()
+		{ webapp.page_Clients_List.show(); },
+
+		cmdOptions : function ()
+		{ webapp.page_Options.show(); },
+
+		cmdExit : function ()
+		{ webapp.page_Security_Login.show(); },
+		
+		cmdUpdate : function ()
+		{ 
+			var me = webapp.page_Client_Edit;
+			var objData = 
+			{
+				ID : 0,
+				firstname : "",
+				lastname : "",
+				street1 : "",
+				street2 : "",
+				city : "",
+				state : "",
+				zip : "",
+				email : "",
+				telephone : "",
+			};
+			
+			objData.nID = me.nID;
+			objData.firstname = $("#field_firstname").val ();
+			objData.lastname = $("#field_lastname").val ();
+			objData.street1 = $("#field_street1").val ();
+			objData.street2 = $("#field_street2").val ();
+			objData.city = $("#field_city").val ();
+			objData.state = $("#field_state").val ();
+			objData.zip = $("#field_zip").val ();
+			objData.email = $("#field_email").val ();
+			objData.telephone = $("#field_telephone").val ();
+			
+			var szParams = JSON.stringify (objData);
+			
+			webapp.queryServer ("clients::add", szParams, function ()
+				{ webapp.page_Client_View.show(me.nID); });
+		},
+
+		cmdRefresh : function ()
+		{ 
+			var me = webapp.page_Client_Edit;
+			
+			var szParam = JSON.stringify ({ "nID" : me.nID } );
+			
+			webapp.queryServer ("client::get", szParam, me.draw_Client);
+		},
+		
+		draw_Client : function (objJSON)
+		{
+			var me = webapp.page_Client_Edit;
+			var objData = objJSON.return;
+			
+			$("#field_username").html (objData.username);
+			$("#field_firstname").val (objData.firstname);
+			$("#field_lastname").val (objData.lastname);
+			$("#field_street1").val (objData.street1);
+			$("#field_street2").val (objData.street2);
+			$("#field_city").val (objData.city);
+			$("#field_state").val (objData.state);
+			$("#field_zip").val (objData.zip);
+			$("#field_email").val (objData.email);
+			$("#field_telephone").val (objData.telephone);
+		}
+	},
+	
+	// ======================================================
+
+	page_Todos_List : 
+	{
+		szPageURL : "Todos_List",
+		btn_Back : "titlebar_back",
+		btn_Add : "titlebar_add",
+		btn_Refresh : "titlebar_refresh",
+		btn_Calendar : "titlebar_calendar",
+		btn_Options : "titlebar_options",
+		btn_Exit : "titlebar_exit",
+		btn_Update : "button_update",
+
+		btn_Search : "button_search",		
+		fld_Search : "field_search",
+
+		template_List : "todo_list_row_template", 
+		tblList : "todo_list",
+		get_List :  "todos::list",
+		
+		btn_view : "todo_viewmore",
+		
+		
+		show : function ()
+		{
+			var me = webapp.page_Todos_List;
+			
+			webapp.getPage (me.szPageURL, "", me.pageInit);
+		},
+
+		pageInit : function ()
+		{
+			var me = webapp.page_Todos_List;
+
+
+			$("#" + me.btn_Back).click (function () { me.cmdBack (); } );
+			$("#" + me.btn_Add).click (function () { me.cmdAdd (); } );
+			$("#" + me.btn_Calendar).click (function () { me.cmdCalendar (); } );
+			$("#" + me.btn_Options).click (function () { me.cmdOptions (); } );
+			$("#" + me.btn_Exit).click (function () { me.cmdExit (); } );
+			$("#" + me.btn_Update).click (function () { me.cmdUpdate (); } );
+
+			me.cmdRefresh ();
+		},
+
+		cmdBack : function ()
+		{ webapp.page_Home.show(); },
+
+		cmdAdd : function ()
+		{ webapp.page_Todo_New.show(); },
+		
+		cmdCalendar : function ()
+		{ 
+			var me = webapp.page_Todos_List;
+			webapp.page_Calendar.show ( me ); 
+		},
+
+		cmdSearch : function ()
+		{
+			var me = webapp.page_Todos_List;
+			var szTerms = $("#" + me.btn_Search).val();
+			
+			var objData = { terms : szTerms };
+			var szParams = JSON.stringify (objData);
+			
+			$("#" + me.tblList).html ("");
+			
+			webapp.queryServer (me.get_List, szParams, me.draw_List);
+		}, 
+		
+		cmdRefresh : function ()
+		{ 
+			var me = webapp.page_Todos_List;
+			
+			$("#" + me.tblList).html ("");
+			
+			webapp.queryServer (me.get_List, "", me.draw_List);
+		},
+		
+		cmdOptions : function ()
+		{ webapp.page_Options.show(); },
+
+		cmdExit : function ()
+		{ webapp.page_Security_Login.show(); },
+	
+		draw_List : function (objJSON)
+		{
+			var objData = objJSON.return;
+			
+			var me = webapp.page_Todos_List;
+			
+			// need to do some transforms on the JSON object here
+			// then dump it out as HTML
+			
+			var szTemplate = $("#" + me.template_List).html();
+			
+			var szHTML = "";
+			
+			$("#debug").html ("<BR>" + objData.length);
+			
+			for (var t=0; t<objData.length; t++)
+			{
+				// need to mangle the template here
+				
+				szReplaced = webapp.jsonReplace (objData[t], szTemplate);
+				var find = new RegExp ("[?= t ?]", "g");
+				szReplaced = szReplaced.replace ("[?= t ?]", t);
+				
+				$("#" + me.tblList).append (szReplaced);
+				
+				$("#" + me.btn_view + "_" + t).click ( function () 
+					{ 
+						var nID = $("#" + me.btn_view + "_" + t).prop ("value");
+						me.cmdView (nID); 
+					} );
+			}
+		},
+		
+		cmdView : function (nID)
+		{
+			webapp.page_Todo_View.show(nID);
+		}
+	},
+
+	// ======================================================
+
+	page_Calendar_List : 
+	{
+		szPageURL : "Calendar_List",
+		btn_Back : "titlebar_back",
+		btn_Logo : "titlebar_logo",
+		btn_Add : "titlebar_add",
+		btn_Refresh : "titlebar_refresh",
+		btn_Options : "titlebar_options",
+		btn_Exit : "titlebar_exit",
+		btn_Update : "button_update",
+
+		btn_Search : "button_search",		
+		fld_Search : "field_search",
+
+		template_List : "",
+		tblList : "calendar_list",
+		get_List :  "calendar::list",
+		
+		btn_view : "todo_viewmore",
+		objReturnTo : null,
+		
+		
+		show : function ( thsPage)
+		{
+			var me = webapp.page_Calendar_List;
+			
+			if ( thsPage )
+				me.objReturnTo = thsPage;
+			
+			webapp.getPage (me.szPageURL, "", me.pageInit);
+		},
+
+		pageInit : function ()
+		{
+			var me = webapp.page_Calendar_List;
+
+			$("#" + me.btn_Back).click (function () { me.cmdBack (); } );
+			$("#" + me.btn_Logo).click (function () { me.cmdHome (); } );
+			$("#" + me.btn_Add).click (function () { me.cmdAdd (); } );
+			$("#" + me.btn_Options).click (function () { me.cmdOptions (); } );
+			$("#" + me.btn_Exit).click (function () { me.cmdExit (); } );
+			$("#" + me.btn_Update).click (function () { me.cmdUpdate (); } );
+
+			me.cmdRefresh ();
+		},
+
+		cmdHome : function ()
+		{ webapp.page_Home.show (); },
+		
+		cmdBack : function ()
+		{ 
+			var me = webapp.page_Calendar;			
+			me.objReturnTo.show(); 
+		},
+
+		cmdAdd : function ()
+		{ webapp.page_Todo_New.show(); },
+		
+		cmdSearch : function ()
+		{
+			var me = webapp.page_Calendar_List;
+			var szTerms = $("#" + me.btn_Search).val();
+			
+			var objData = { terms : szTerms };
+			var szParams = JSON.stringify (objData);
+			
+			$("#" + me.tblList).html ("");
+			
+			webapp.queryServer (me.get_List, szParams, me.draw_List);
+		}, 
+		
+		cmdRefresh : function ()
+		{ 
+			var me = webapp.page_Todos_List;
+			
+			$("#" + me.tblList).html ("");
+			
+			webapp.queryServer (me.get_List, "", me.draw_List);
+		},
+		
+		cmdOptions : function ()
+		{ webapp.page_Options.show(); },
+
+		cmdExit : function ()
+		{ webapp.page_Security_Login.show(); },
+	
+		draw_List : function (objJSON)
+		{
+		},
+		
+		cmdView : function (nID)
+		{
+			szPage = "Get::AppropriatePage";
+			szParams =  { nID : nID },
+			cbPageInit = null;
+			
+			webapp.getPage (szPage, szParams, cbPageInit);
+		}
+	},
+
+	// ======================================================
+
+	page_WorkOrders_List : 
+	{
+		szPageURL : "WorkOrders_List",
+		btn_Back : "titlebar_back",
+		btn_Add : "titlebar_add",
+		btn_Refresh : "titlebar_refresh",
+		btn_Options : "titlebar_options",
+		btn_Exit : "titlebar_exit",
+		btn_Update : "button_update",
+
+		btn_Search : "button_search",		
+		fld_Search : "field_search",
+
+		template_List : "workorders_list_row_template",
+		tblList : "workorders_list",
+		get_List :  "workorders::list",
+		
+		btn_view : "workorder_viewmore",
+		objReturnTo : null,
+		
+		show : function ( thsPage)
+		{
+			var me = webapp.page_WorkOrders_List;
+			
+			if ( thsPage )
+				me.objReturnTo = thsPage;
+			
+			webapp.getPage (me.szPageURL, "", me.pageInit);
+		},
+
+		pageInit : function ()
+		{
+			var me = webapp.page_WorkOrders_List;
+
+			$("#" + me.btn_Back).click (function () { me.cmdBack (); } );
+			$("#" + me.btn_Add).click (function () { me.cmdAdd (); } );
+			$("#" + me.btn_Options).click (function () { me.cmdOptions (); } );
+			$("#" + me.btn_Exit).click (function () { me.cmdExit (); } );
+			$("#" + me.btn_Update).click (function () { me.cmdUpdate (); } );
+
+			me.cmdRefresh ();
+		},
+
+		cmdBack : function ()
+		{ webapp.page_Home.show(); },
+
+
+		cmdRefresh : function ()
+		{ 
+			var me = webapp.page_WorkOrders_List;
+			
+			$("#" + me.tblList).html ("");
+			
+			webapp.queryServer (me.get_List, "", me.draw_List);
+		},
+		
+		draw_List : function (objJSON)
+		{
+			var objData = objJSON.return;
+			
+			var me = webapp.page_WorkOrders_List;
+			
+			// need to do some transforms on the JSON object here
+			// then dump it out as HTML
+			
+			var szTemplate = $("#" + me.template_List).html();
+			
+			var szHTML = "";
+			
+			$("#debug").html ("<BR>" + objData.length);
+			
+			for (var t=0; t<objData.length; t++)
+			{
+				// need to mangle the template here
+				
+				szReplaced = webapp.jsonReplace (objData[t], szTemplate);
+				var find = new RegExp ("[?= t ?]", "g");
+				szReplaced = szReplaced.replace ("[?= t ?]", t);
+				
+				$("#" + me.tblList).append (szReplaced);
+				
+				$("#" + me.btn_view + "_" + t).click ( function () 
+					{ 
+						var nID = $("#" + me.btn_view + "_" + t).prop ("value");
+						me.cmdView (nID); 
+					} );
+			}
+		},
+		
+		cmdView : function (nID)
+		{	webapp.page_WorkOrder_View.show (nID); }
+	},
+	
+	// ======================================================
+
+	page_WorkOrder_View : 
+	{
+		szPageURL : "WorkOrder_View",
+		btn_Back : "titlebar_back",
+		btn_Options : "titlebar_options",
+		btn_Exit : "titlebar_exit",
+		btn_Edit : "titlebar_edit",
+
+		btn_contactinfo : "buttonbar_contactinfo",
+		btn_workorders : "buttonbar_workorders",
+		btn_billing : "buttonbar_billing",
+		btn_invoices : "buttonbar_invoices",
+		btn_calllog : "buttonbar_calllog",
+		btn_locations : "buttonbar_locations",
+		btn_calendar : "buttonbar_calendar",
+
+		btn_workorder : "buttonbar_workorder",
+		btn_start : "buttonbar_start",
+		btn_pause : "buttonbar_pause",
+		btn_stop : "buttonbar_stop",
+		btn_view_log : "buttonbar_log",
+		btn_todos_b4 : "buttonbar_todos_B4",
+		btn_todos_during : "buttonbar_todos_During",
+		btn_todos_next : "buttonbar_todos_Next",
+		btn_invoice : "buttonbar_invoice",
+
+		btn_view_client : "button_view_client", 
+		btn_assigntech : "button_view_technicians", 
+		btn_dRequested : "button_dRequested", 
+		btn_dScheduled : "button_dScheduled", 
+		btn_tInTransit : "button_tInTransit", 
+		btn_tArrived : "button_tArrived", 
+		btn_dRequested : "button_dRequested", 
+		btn_clients_notes : "button_clients_notes", 
+		btn_tech_notes : "button_tech_notes", 
+		btn_signature : "button_signature",
+
+		field_szClient : "field_szClient", 
+		field_szTechnician : "field_szTechnician", 
+		field_dRequested : "field_dRequested", 
+		field_dScheduled : "field_dScheduled", 
+		field_tInTransit : "field_tInTransit", 
+		field_tArrived : "field_tArrived", 
+		field_bReturn : "field_bReturn", 
+		field_dReturn : "field_dReturn", 
+		field_szSignedBy : "field_szSignedBy", 
+		field_dSigned : "field_dSigned", 
+
+		nID : 0,
+		
+		show : function (nID)
+		{
+			var me = webapp.page_WorkOrder_View;
+			me.nID = nID;
+			
+			var objData = { ID :  me.nID };			
+			var szParams = JSON.stringify ( objData );
+			
+			webapp.getPage (me.szPageURL, szParams, me.pageInit);
+		},
+
+		pageInit : function ()
+		{
+			var me = webapp.page_WorkOrder_View;
+
+			$("#" + me.btn_Back).click (function () { me.cmdBack (); } );
+			$("#" + me.btn_Exit).click (function () { me.cmdExit (); } );
+			$("#" + me.btn_Edit).click (function () { me.cmdEdit (me.nID); } );
+
+			$("#" + me.btn_contactinfo).click (function () { me.cmdContactInfo (me.nID); } );
+			$("#" + me.btn_workorders).click (function () { me.cmdWorkorders (me.nID); } );
+			$("#" + me.btn_billing).click (function () { me.cmdBilling (me.nID); } );
+			$("#" + me.btn_invoices).click (function () { me.cmdInvoices (me.nID); } );
+			$("#" + me.btn_calllog).click (function () { me.cmdCalllog (me.nID); } );
+			$("#" + me.btn_locations).click (function () { me.cmdLocations (me.nID); } );
+			$("#" + me.btn_calendar).click (function () { me.cmdCalendar (me.nID); } );
+
+			$("#" + me.btn_workorder).click (function () { me.cmdViewWorkOrder (me.nID); } );
+			$("#" + me.btn_start).click (function () { me.cmdStart (me.nID); } );
+			$("#" + me.btn_pause).click (function () { me.cmdPause (me.nID); } );
+			$("#" + me.btn_stop).click (function () { me.cmdStop (me.nID); } );
+			$("#" + me.btn_view_log).click (function () { me.cmdViewLog (me.nID); } );
+			$("#" + me.btn_todos_b4).click (function () { me.cmdTodosB4 (me.nID); } );
+			$("#" + me.btn_todos_during).click (function () { me.cmdTodos (me.nID); } );
+			$("#" + me.btn_todos_next).click (function () { me.cmdTodosNext (me.nID); } );
+			$("#" + me.btn_invoice).click (function () { me.cmdInvoice (me.nID); } );
+
+			$("#" + me.btn_view_client).click (function () { me.cmdClient (me.nID); } );
+			$("#" + me.btn_assigntech).click (function () { me.cmdAssignTech (me.nID); } );
+			$("#" + me.btn_dRequested).click (function () { me.cmdAppointment (me.nID); } );
+			$("#" + me.btn_dScheduled).click (function () { me.cmdSchedule (me.nID); } );
+			$("#" + me.btn_tInTransit).click (function () { me.cmdInTransit (me.nID); } );
+			$("#" + me.btn_tArrived).click (function () { me.cmdArrived (me.nID); } );
+			$("#" + me.btn_dRequested).click (function () { me.cmdGetDate (me.nID); } );
+			$("#" + me.btn_clients_notes).click (function () { me.cmdCustNotes (me.nID); } );
+			$("#" + me.btn_tech_notes).click (function () { me.cmdTechNotes (me.nID); } );
+			$("#" + me.btn_signature).click (function () { me.cmdGetSig (me.nID); } );
+
+			me.cmdRefresh ();
+		},
+
+		cmdBack : function ()
+		{ webapp.page_WorkOrders_List.show(); },
+
+		cmdEdit : function (nID)
+		{ webapp.page_Client_Edit.show(nID); },
+
+		cmdOptions : function ()
+		{ webapp.page_Options.show(); },
+
+		cmdExit : function ()
+		{ webapp.page_Security_Login.show(); },
+
+		cmdRefresh : function ()
+		{ 
+			var me = webapp.page_WorkOrder_View;
+			
+			var objData = { nID : me.nID };
+			var szParam = JSON.stringify ( objData );
+			
+			webapp.queryServer ("client::get", szParam, me.draw_Client);
+		},
+		
+		draw_Client : function (objJSON)
+		{
+			var me = webapp.page_WorkOrder_View;
+			var objData = objJSON.return;
+			
+			$("#field_szClient").html (objData.szClient);
+			$("#field_szTechnician").html (objData.szTechnician);
+			$("#field_dRequested").html (objData.dRequested);
+			$("#field_dScheduled").html (objData.dScheduled);
+			$("#field_tInTransit").html (objData.tInTransit);
+			$("#field_tArrived").html (objData.tArrived);
+			$("#field_tBegan").html (objData.tBegan);
+			$("#field_tEnded").html (objData.tEnded);
+			$("#field_bReturn").html (objData.bReturn);
+			$("#field_dReturn").html (objData.dReturn);
+			$("#field_szSignedBy").html (objData.szSignedBy);
+			$("#field_dSigned").html (objData.dSigned);
+			
+		},
+		
+		cmdWorkorders : function (nID)
+		{ webapp.page_WorkOrders_List.show(); },
+		
+	},
+
+};
